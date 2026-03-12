@@ -38,9 +38,9 @@ export default function Login() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <div className="auth-logo">T</div>
+        <div className="auth-logo"></div>
         <h1 className="auth-title">Welcome Back</h1>
-        <p className="auth-subtitle">Sign in to your admin panel</p>
+        <p className="auth-subtitle">Sign into your Admin panel</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">

@@ -160,18 +160,22 @@ img {
 }
 
 .auth-logo {
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, var(--green-500), var(--green-700));
+  width: 105px;
+  height: 50px;
+  animation: bg 2s linear infinite;
+  background: url('./assets/altuvera.png');
+  background-size: 100% 100%;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 24px;
+  margin: 0 auto .4vh;
   font-size: 24px;
   font-weight: 800;
   color: white;
 }
+
+
 
 .auth-title {
   text-align: center;

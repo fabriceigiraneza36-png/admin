@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API = axios.create({
   // ✅ Change port from 3001 to 5000
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://backend-1-ghrv.onrender.com/api",
   headers: { 
     "Content-Type": "application/json" 
   },
