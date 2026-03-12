@@ -11,17 +11,25 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // ❌ REMOVED THIS LINE - This was causing the error!
+  // const { query } = require("../config/db");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) return toast.error("Please fill all fields");
+    
+    if (!email || !password) {
+      return toast.error("Please fill all fields");
+    }
 
     try {
       setLoading(true);
       await login(email, password);
       toast.success("Welcome back!");
-      navigate("/");
+      // Don't manually navigate - let the route handle it
+      // navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Login failed");
+      console.error("Login error:", err);
+      toast.error(err.response?.data?.message || err.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -55,6 +63,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 style={{ paddingLeft: 40 }}
+                autoComplete="email"
               />
             </div>
           </div>
@@ -79,6 +88,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{ paddingLeft: 40 }}
+                autoComplete="current-password"
               />
             </div>
           </div>

@@ -10,12 +10,17 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
     const saved = localStorage.getItem("admin_user");
+    
     if (token && saved) {
       setUser(JSON.parse(saved));
+      
+      // Verify token is still valid
       API.get("/admin/auth/me")
         .then((res) => {
-          setUser(res.data.user);
-          localStorage.setItem("admin_user", JSON.stringify(res.data.user));
+          // ✅ Handle nested response: res.data.data
+          const userData = res.data.data || res.data.user || res.data;
+          setUser(userData);
+          localStorage.setItem("admin_user", JSON.stringify(userData));
         })
         .catch(() => {
           logout();
@@ -28,14 +33,25 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const res = await API.post("/admin/auth/login", { email, password });
-    const { token, user: u } = res.data;
+    
+    // ✅ Your backend returns: { success: true, data: { token, user } }
+    const responseData = res.data.data || res.data;
+    const { token, user: u } = responseData;
+    
     localStorage.setItem("admin_token", token);
     localStorage.setItem("admin_user", JSON.stringify(u));
+    
     setUser(u);
     return u;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await API.post("/admin/auth/logout");
+    } catch (err) {
+      // Ignore logout errors
+    }
+    
     localStorage.removeItem("admin_token");
     localStorage.removeItem("admin_user");
     setUser(null);
